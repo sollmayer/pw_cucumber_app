@@ -15,13 +15,12 @@ Given("the user is on the Login page", async function () {
 When("the user enters valid credentials", async function() {
     await page.getByRole("textbox", { name: "Email" }).fill("TestingApiCalls@gmail.com");
     await page.getByRole("textbox", { name: "Password" }).fill("TestingApiCalls");
-    await page.getByRole("button", { name: "Sign in" }).click();
 })
 When("the user clicks on login button", async function() {
     await page.getByRole("button", { name: "Sign in" }).click();
 })
 Then('the user is redirected to the Home page', async function() {
-    expect(page.url()).toEqual('https://conduit.bondaracademy.com/');
-    await expect(page.getByRole('link', {name:"Sign in"})).toBeVisible();
+    await expect(page).toHaveURL('https://conduit.bondaracademy.com/')
+    await expect(page.getByRole('link', {name:"Sign in"})).not.toBeVisible();
     await browser.close();
 })
