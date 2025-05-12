@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js src/tests"
+    "test": "cucumber-js src/tests",
+    "test:failed":"npm run execute:script:failed",
+    "execute:script:failed":"cucumber-js -p rerun @rerun.txt"
   },
   "keywords": [],
   "author": "",
