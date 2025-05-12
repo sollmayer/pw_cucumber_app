@@ -1,6 +1,7 @@
-import { Before, After, BeforeAll, AfterAll } from "@cucumber/cucumber";
+import { Before, After, BeforeAll, AfterAll, Status } from "@cucumber/cucumber";
 import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
 import { pageFixture } from "./pageFixture";
+import path = require("path");
 
 let browser:Browser;
 let page:Page;
@@ -19,7 +20,12 @@ Before(async function(){
     pageFixture.page = page;
 })
 
-After(async function(){
+After(async function({pickle,result}){
+    if(result?.status == Status.FAILED){
+        const screenshot = pageFixture.page.screenshot({path:`../../test-result/screenshots/${pickle.name}.png`, type:"png"})
+        this.attach(screenshot, "image/png")
+    }
+
     await page.close();
     await context.close();
 })
